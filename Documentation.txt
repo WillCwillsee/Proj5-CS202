@@ -1,0 +1,263 @@
+This project was much easier than the last one.  So much so that I was worried I was missing some crucial aspect of the goal of the project and I hadn't actually completed it, but after rereading the Project 5 guidelines multiple times, I'm confident I completed it correctly.  The only issue that took me any time at all was figuring out that I had to use an initializer list for the m_VIN because it is a const and thus cannot be changed once it has been initialized (i.e.  you cannot initialize the object and then try to set it in the body of the object constructor).  The following is a copy of the output from /.proj5:
+
+
+
+////////////////////////////
+/////    Base Tests    /////
+////////////////////////////
+
+Testing Base Default ctor
+
+Vehicle #1: Default-ctor
+
+Testing Base insertion operator
+Vehicle #1 @ [0, 0, 0]
+Base idgen: 2
+
+Testing Base Parametrized ctor
+
+Vehicle #99: Parametrized-ctor
+Vehicle #99 @ [39.54, 119.82, 4500]
+Base idgen: 2
+
+Testing Base Copy ctor
+
+Vehicle #2: Copy-ctor
+Vehicle #2 @ [39.54, 119.82, 4500]
+Base idgen: 3
+
+Testing Base Assignment operator
+
+Vehicle #1: Assignment
+Vehicle #1 @ [39.54, 119.82, 4500]
+Base idgen: 3
+
+Testing Base Move Function
+
+Vehicle #1: CANNOT MOVE - I DON'T KNOW HOW
+
+////////////////////////////
+/////   Derived Tests  /////
+////////////////////////////
+
+Testing Derived Default ctor
+
+Vehicle #3: Default-ctor
+
+Car #3: Default-ctor
+
+Testing Derived insertion operator
+Car #3 Plates: , Throttle: 0 @ [0, 0, 0]
+Derived idgen: 4
+
+Testing Derived Parametrized ctor
+
+Vehicle #999: Default-ctor
+
+Car #999: Parametrized-ctor
+Car #999 Plates: Gandalf, Throttle: 0 @ [39.54, 119.82, 4500]
+Derived idgen: 4
+
+Testing Derived Copy ctor
+
+Vehicle #4: Default-ctor
+
+Car #4: Copy-ctor
+Car #4 Plates: Gandalf, Throttle: 0 @ [39.54, 119.82, 4500]
+Derived idgen: 5
+
+Testing Derived Assignment operator
+
+Vehicle #3: Assignment
+Car #3 Plates: Gandalf, Throttle: 0 @ [39.54, 119.82, 4500]
+Derived idgen: 5
+
+Testing Derived Move Function
+
+////////////////////////////
+/////    Tests Done    /////
+////////////////////////////
+
+Car #4: Default-dtor
+
+Vehicle #4: Default-dtor
+
+Car #999: Default-dtor
+
+Vehicle #999: Default-dtor
+
+Car #3: Default-dtor
+
+Vehicle #3: Default-dtor
+
+Vehicle #2: Default-dtor
+
+Vehicle #99: Default-dtor
+
+Vehicle #1: Default-dtor
+
+
+#
+Now I will take you through and explain each line and how I understand it:
+#
+
+
+# Simple cout statement included in proj5.cpp
+
+////////////////////////////
+/////    Base Tests    /////
+////////////////////////////
+
+# 
+The first test of the Base class default constructor and insertion operator.  It takes no arguments and m_VIN is the only member to be initialized to something other than NULL.  Because it essentially only has a VIN, that is all you see in the following insertion operator.  It then prints out the updated value for s_idgen after being increased upon Vehicle initialization
+#
+
+
+Testing Base Default ctor
+
+Vehicle #1: Default-ctor
+
+Testing Base insertion operator
+Vehicle #1 @ [0, 0, 0]
+Base idgen: 2
+
+
+# 
+The first test of the Base class parameterized constructor and insertion operator.  It takes two arguments, a VIN and a location, to be used for m_vin and m_lla respectively.  This is the first time the insertion operator has all the information about the calling object and so it prints out m_vin and m_lla in the proper location as well as the updated value for s_idgen which has not be increased since it used a passed argument for the VIN initialization rather than s_idgen.
+#
+
+Testing Base Parametrized ctor
+
+Vehicle #99: Parametrized-ctor
+Vehicle #99 @ [39.54, 119.82, 4500]
+Base idgen: 2
+
+
+# 
+This is the test of the Base class copy constructor and insertion operator.  It takes one argument, a reference to a Vehicle object.  It essentially copies all of the information EXCEPT for the VIN (which must be unique) and so initializes the VIN with s_idgen instead of the passed VIN.  It then prints all the Vehicle member information and the updated s_idgen.
+#
+
+
+
+Testing Base Copy ctor
+
+Vehicle #2: Copy-ctor
+Vehicle #2 @ [39.54, 119.82, 4500]
+Base idgen: 3
+
+
+# 
+This is the test of the Base assignment operator followed by the insertion operator to print the Vehicle's member information.  It takes two preexisting Vehicle objects and sets the LHS vehicles's values equal to the RHS vehicle's values, aside from the VIN (which must always be unique).  It the prints the assigned Vehicle's member information to the terminal and the updated s_idgen.
+#
+
+
+
+Testing Base Assignment operator
+
+Vehicle #1: Assignment
+Vehicle #1 @ [39.54, 119.82, 4500]
+Base idgen: 3
+
+
+# 
+This is a test of the Base move method, which doesn't do anything because only the Derived class object have a functioning move method
+#
+
+
+Testing Base Move Function
+
+Vehicle #1: CANNOT MOVE - I DON'T KNOW HOW
+
+
+
+////////////////////////////
+/////   Derived Tests  /////
+////////////////////////////
+
+
+# 
+This ia a test of the Derived class default constructor override and insertion operator.  It functions similarly to the Base class constructor/insertion operator and the information printed to the terminal is incomplete, just like with the Base default constructor.  It also shows the updated s_idgen
+#
+
+
+Testing Derived Default ctor
+
+Vehicle #3: Default-ctor
+
+Car #3: Default-ctor
+
+Testing Derived insertion operator
+Car #3 Plates: , Throttle: 0 @ [0, 0, 0]
+Derived idgen: 4
+
+
+# 
+The first test of the Derived class parameterized constructor override and insertion operator.  It takes three arguments, a license plate string, a VIN, and a location, to be used for m_plates, m_vin and m_lla respectively.  This contains all the information about the calling object and so it prints out m_plates, m_vin and m_lla in the proper location as well as the updated value for s_idgen which has not be increased since it used a passed argument for the VIN initialization rather than s_idgen.  The m_throttle member has been initialized to 0.
+#
+
+
+Testing Derived Parametrized ctor
+
+Vehicle #999: Default-ctor
+
+Car #999: Parametrized-ctor
+Car #999 Plates: Gandalf, Throttle: 0 @ [39.54, 119.82, 4500]
+Derived idgen: 4
+
+
+# 
+The test of the Derived class copy constructor and insertion operator.  It takes one argument, a reference to a Car object.  It essentially copies all of the information EXCEPT for the VIN (which must be unique) and so initializes the VIN with s_idgen instead of the passed VIN.  It then prints all the Car member information and the updated s_idgen.
+#
+
+
+Testing Derived Copy ctor
+
+Vehicle #4: Default-ctor
+
+Car #4: Copy-ctor
+Car #4 Plates: Gandalf, Throttle: 0 @ [39.54, 119.82, 4500]
+Derived idgen: 5
+
+
+#
+This is the test of the Derived class assignment operator followed by the insertion operator.  It essentially copies all information of the LHS Car's values to the RHS, except for the VIN, which must be unique.  It then prints the new cars information to the terminal and the non-updated s_idgen.
+#
+
+
+Testing Derived Assignment operator
+
+Vehicle #3: Assignment
+Car #3 Plates: Gandalf, Throttle: 0 @ [39.54, 119.82, 4500]
+Derived idgen: 5
+
+#
+This is the test of the Derived class move method, which works unlike the Base class.  For some reason the proj5.cpp did not include an insertion operator and so we cannot see the updated LLA, but I have checked it on my own and it does indeed work.
+
+
+Testing Derived Move Function
+
+////////////////////////////
+/////    Tests Done    /////
+////////////////////////////
+
+#
+This is all of constructed object being deconstructed upon completion of the program
+#
+
+Car #4: Default-dtor
+
+Vehicle #4: Default-dtor
+
+Car #999: Default-dtor
+
+Vehicle #999: Default-dtor
+
+Car #3: Default-dtor
+
+Vehicle #3: Default-dtor
+
+Vehicle #2: Default-dtor
+
+Vehicle #99: Default-dtor
+
+Vehicle #1: Default-dtor
